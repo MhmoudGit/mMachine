@@ -67,7 +67,7 @@ func TestDECA(t *testing.T) {
 	}
 }
 
-func TestSubtracting(t *testing.T) {
+func TestArithmatic(t *testing.T) {
 	t.Parallel()
 	g := ymachine.New()
 	g.Arithmatic(3, 2)
