@@ -82,7 +82,7 @@ func TestSETA(t *testing.T) {
 	t.Parallel()
 	y := ymachine.New()
 	y.Memory[0] = ymachine.SETA
-	y.Memory = append(y.Memory, 5)
+	y.Memory[1] = 5
 	y.Run()
 	var wantA ymachine.Word = 5
 	if wantA != y.A {
@@ -91,5 +91,19 @@ func TestSETA(t *testing.T) {
 	var wantP ymachine.Word = 3
 	if wantP != y.P {
 		t.Errorf("want P == %d, got, got %d", wantP, y.P)
+	}
+}
+
+func TestSubstract2(t *testing.T) {
+	t.Parallel()
+	y := ymachine.New()
+	y.Memory[0] = ymachine.SETA
+	y.Memory[1] = 3
+	y.Memory[2] = ymachine.DECA
+	y.Memory[3] = ymachine.DECA
+	y.Run()
+	var wantA ymachine.Word = 1
+	if wantA != y.A {
+		t.Errorf("want A == %d, got, got %d", wantA, y.A)
 	}
 }

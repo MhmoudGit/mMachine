@@ -6,7 +6,7 @@ type Word uint64
 
 // DefaultMemSize is the number of 64-bit words of memory which will be
 // allocated to a new Y-machine by default.
-const DefaultMemSize = 1
+const DefaultMemSize = 1024
 
 // Instructions Opcode constants
 const (
