@@ -4,14 +4,17 @@ import "log"
 
 type Word uint64
 
-var DefaultMemSize Word = 1
+// DefaultMemSize is the number of 64-bit words of memory which will be
+// allocated to a new Y-machine by default.
+const DefaultMemSize = 1
 
 // Instructions Opcode constants
 const (
-	HALT = 0
-	NOOP = 1
-	INCA = 2
-	DECA = 3
+	HALT Word = iota + 0
+	NOOP
+	INCA
+	DECA
+	SETA
 )
 
 type ymachine struct {
@@ -28,36 +31,44 @@ func New() ymachine {
 	}
 }
 
-func (g *ymachine) Run() {
-	g.Memory = append(g.Memory, HALT)
-	log.Println(g.Memory)
-	for i := 0; i < len(g.Memory); i++ {
-		switch {
-		case g.Memory[g.P] == HALT:
+func (y *ymachine) Run() {
+	for {
+		op := y.Fetch()
+		switch Word(op) {
+		case HALT:
 			log.Println("HALT")
-			g.P++
 			return
-		case g.Memory[g.P] == NOOP:
+		case NOOP:
 			log.Println("NOOP")
-		case g.Memory[g.P] == INCA:
+		case INCA:
 			log.Println("INCA")
-			g.A++
-			log.Println(g.A)
-		case g.Memory[g.P] == DECA:
+			y.A++
+		case DECA:
 			log.Println("DECA")
-			g.A--
-			log.Println(g.A)
+			y.A--
+		case SETA:
+			log.Println("SETA")
+			y.A = y.Fetch()
 		}
-		g.P++
+		y.Memory = append(y.Memory, HALT)
+		log.Println(y.Memory)
 	}
 }
+func (y *ymachine) Fetch() Word {
+	op := y.Memory[y.P]
+	y.P++
+	return op
+}
 
-func (g *ymachine) Arithmatic(a, b int) {
-	g.Memory = []Word{}
+// This implements Addition/Substraction operations where
+// a is used for addition and b is used for substraction
+// to omit the substraction you can set b = 0 and vice versa
+func (y *ymachine) Arithmatic(a, b int) {
+	y.Memory = []Word{}
 	for i := 0; i < a; i++ {
-		g.Memory = append(g.Memory, INCA)
+		y.Memory = append(y.Memory, INCA)
 	}
 	for i := 0; i < b; i++ {
-		g.Memory = append(g.Memory, DECA)
+		y.Memory = append(y.Memory, DECA)
 	}
 }
