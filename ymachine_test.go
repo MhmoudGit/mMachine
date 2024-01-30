@@ -36,8 +36,7 @@ func TestHalt(t *testing.T) {
 func TestNoop(t *testing.T) {
 	t.Parallel()
 	y := ymachine.New()
-	y.Memory[0] = ymachine.NOOP
-	y.Run()
+	y.RunProgram([]ymachine.Word{ymachine.NOOP})
 	var wantP ymachine.Word = 2
 	if wantP != y.P {
 		t.Errorf("want P == %d, got, got %d", wantP, y.P)
@@ -47,8 +46,7 @@ func TestNoop(t *testing.T) {
 func TestINCA(t *testing.T) {
 	t.Parallel()
 	y := ymachine.New()
-	y.Memory[0] = ymachine.INCA
-	y.Run()
+	y.RunProgram([]ymachine.Word{ymachine.INCA})
 	var wantA ymachine.Word = 1
 	if wantA != y.A {
 		t.Errorf("want A == %d, got, got %d", wantA, y.A)
@@ -59,8 +57,7 @@ func TestDECA(t *testing.T) {
 	t.Parallel()
 	y := ymachine.New()
 	y.A = 2
-	y.Memory[0] = ymachine.DECA
-	y.Run()
+	y.RunProgram([]ymachine.Word{ymachine.DECA})
 	var wantA ymachine.Word = 1
 	if wantA != y.A {
 		t.Errorf("want A == %d, got, got %d", wantA, y.A)
@@ -81,9 +78,7 @@ func TestArithmatic(t *testing.T) {
 func TestSETA(t *testing.T) {
 	t.Parallel()
 	y := ymachine.New()
-	y.Memory[0] = ymachine.SETA
-	y.Memory[1] = 5
-	y.Run()
+	y.RunProgram([]ymachine.Word{ymachine.SETA, 5})
 	var wantA ymachine.Word = 5
 	if wantA != y.A {
 		t.Errorf("want A == %d, got, got %d", wantA, y.A)
@@ -97,11 +92,7 @@ func TestSETA(t *testing.T) {
 func TestSubstract2(t *testing.T) {
 	t.Parallel()
 	y := ymachine.New()
-	y.Memory[0] = ymachine.SETA
-	y.Memory[1] = 3
-	y.Memory[2] = ymachine.DECA
-	y.Memory[3] = ymachine.DECA
-	y.Run()
+	y.RunProgram([]ymachine.Word{ymachine.SETA, 3, ymachine.DECA, ymachine.DECA})
 	var wantA ymachine.Word = 1
 	if wantA != y.A {
 		t.Errorf("want A == %d, got, got %d", wantA, y.A)

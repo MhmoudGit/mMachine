@@ -51,9 +51,16 @@ func (y *ymachine) Run() {
 			y.A = y.Fetch()
 		}
 		y.Memory = append(y.Memory, HALT)
-		log.Println(y.Memory)
 	}
 }
+
+// Allocate the program i have to the memory of the machine
+func (y *ymachine) RunProgram(prog []Word) {
+	copy(y.Memory[:len(prog)], prog)
+	log.Println(y.Memory)
+	y.Run()
+}
+
 func (y *ymachine) Fetch() Word {
 	op := y.Memory[y.P]
 	y.P++
