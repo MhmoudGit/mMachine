@@ -11,4 +11,4 @@ A Go package to emulate a simple computer system called the Y-machine.
 
 ### ToDo :
 
-[ ] Add ci/cd pipeline to run tests upon pushing code to github
+- [x] Add ci/cd pipeline to run tests upon pushing code to github
