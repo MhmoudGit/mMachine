@@ -8,7 +8,7 @@ type Word uint64
 // allocated to a new Y-machine by default.
 const DefaultMemSize = 1024
 
-// Instructions Opcode constants
+// Instructions Opcode constant
 const (
 	HALT Word = iota + 0
 	NOOP
@@ -54,7 +54,7 @@ func (y *ymachine) Run() {
 	}
 }
 
-// Allocate the program i have to the memory of the machine
+// Allocate the program you make to the memory of the machine
 func (y *ymachine) RunProgram(prog []Word) {
 	copy(y.Memory[:len(prog)], prog)
 	log.Println(y.Memory)
